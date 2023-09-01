@@ -32,17 +32,18 @@ const int MAX_LINE_LENGTH = 300;
 
 /// @brief Code of detected error
 enum ERROR_CODE{
-    undefined_variable  = 0,      ///< Undefined error code
-    number_is_nan       = 1 << 0, ///< Given number has NaN value
-    number_is_inf       = 1 << 1, ///< Given numver has inf value
-    not_enough_pointers = 1 << 2, ///< One or multiple pointers have one address
-    eof_found           = 1 << 3, ///< EOF symbol has been found in input buffer
-    pointer_is_null     = 1 << 4, ///< Given pointer has NULL value
-    cannot_open_file    = 1 << 5, ///< Error is occuried while opening file
-    wrong_data_format   = 1 << 6, ///< File data have wrong format
-    too_many_arguments  = 1 << 7, ///< Too many console line arguments have been passed
-    file_close_error    = 1 << 8, ///< Error is occuried while closing file
-    length_too_big      = 1 << 9  ///< String length is too big
+    undefined_variable  = 1 << 0,  ///< Undefined error code
+    number_is_nan       = 1 << 1,  ///< Given number has NaN value
+    number_is_inf       = 1 << 2,  ///< Given numver has inf value
+    not_enough_pointers = 1 << 3,  ///< One or multiple pointers have one address
+    eof_found           = 1 << 4,  ///< EOF symbol has been found in input buffer
+    pointer_is_null     = 1 << 5,  ///< Given pointer has NULL value
+    cannot_open_file    = 1 << 6,  ///< Error is occuried while opening file
+    wrong_data_format   = 1 << 7,  ///< File data have wrong format
+    too_many_arguments  = 1 << 8,  ///< Too many console line arguments have been passed
+    file_close_error    = 1 << 9,  ///< Error is occuried while closing file
+    length_too_big      = 1 << 10, ///< String length is too big
+    invalid_value       = 1 << 11  ///< Invalid variable value
 };
 
 /*!
