@@ -1,12 +1,12 @@
-#ifndef SOLVER_LOGGER
-#define SOLVER_LOGGER
+#ifndef SOLVER_LOGGER_H_
+#define SOLVER_LOGGER_H_
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
 #include "SolverAssert.h"
-#include "ColorConsole.h"
+#include "ColorConsole/ColorConsole.h"
 
 /// @brief Size of a buffer which contains logged functions
 const int TRACE_BUFFER_SIZE = 20;
