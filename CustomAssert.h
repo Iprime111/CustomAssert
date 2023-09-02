@@ -21,7 +21,7 @@ const int MAX_LINE_LENGTH = 300;
     custom_assert_internal(EXP, CODE, RET, PopLog())
 
 /*! @brief Custom assert implementation that provides information about file, function and line, do not stops the program and running the CALLBACK expression*/
-#define custom_assert_internal(EXP, CODE, RET, CALLBACK)                                                           \
+#define custom_assert_internal(EXP, CODE, RET, CALLBACK)                                        \
             do{                                                                                 \
                 if (!(EXP)){                                                                    \
                     assert_perror_custom (CODE, __FILE__, __PRETTY_FUNCTION__, __LINE__);       \
@@ -53,7 +53,7 @@ enum ERROR_CODE{
     @return Nothing
     Shows detailed error description, it's file and line and tested expression
 */
-void assert_perror_custom (enum ERROR_CODE code, const char *source_path, const char *function, unsigned int line);\
+void assert_perror_custom (enum ERROR_CODE code, const char *source_path, const char *function, unsigned int line);
 
 /*!
     @brief Reads three lines from the source file. Shifts reading lines if neccessary

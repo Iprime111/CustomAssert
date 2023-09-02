@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "SolverAssert.h"
+#include "./CustomAssert.h"
 #include "ColorConsole/ColorConsole.h"
 
 /// @brief Size of a buffer which contains logged functions

@@ -21,9 +21,6 @@ void assert_perror_custom (enum ERROR_CODE code, const char *source_path, const 
     MSG_ (length_too_big,       "String length is too big")
     MSG_ (invalid_value,        "Variable value is invalid")
 
-    printf_color (Console_red, Console_normal, "%s ", msg);
-
-
     #ifdef _DEBUG
         printf_color (Console_red, Console_normal, "in %s %s:%d\n",\
                         function, source_path, line);
