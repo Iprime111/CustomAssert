@@ -40,7 +40,7 @@ enum ERROR_CODE{
     pointer_is_null     = 1 << 5,  ///< Given pointer has NULL value
     cannot_open_file    = 1 << 6,  ///< Error is occuried while opening file
     wrong_data_format   = 1 << 7,  ///< File data have wrong format
-    too_many_arguments  = 1 << 8,  ///< Too many console line arguments have been passed
+    invalid_arguments   = 1 << 8,  ///< Too many console line arguments have been passed
     file_close_error    = 1 << 9,  ///< Error is occuried while closing file
     length_too_big      = 1 << 10, ///< String length is too big
     invalid_value       = 1 << 11  ///< Invalid variable value
