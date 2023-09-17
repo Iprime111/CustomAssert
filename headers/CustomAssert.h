@@ -7,7 +7,7 @@
 #include <time.h>
 #include <sys/stat.h>
 
-#include "ColorConsole/ColorConsole.h"
+#include "ColorConsole.h"
 #include "Logger.h"
 
 const int MAX_LINE_LENGTH = 300;
