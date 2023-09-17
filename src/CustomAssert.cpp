@@ -16,7 +16,7 @@ void assert_perror_custom (enum ERROR_CODE code, const char *source_path, const 
     MSG_ (pointer_is_null,      "Requested pointer is NULL")
     MSG_ (cannot_open_file,     "Can not open file")
     MSG_ (wrong_data_format,    "Incorrect data format")
-    MSG_ (invalid_arguments,    "Too many command line arguments")
+    MSG_ (invalid_arguments,    "Invalid command line arguments")
     MSG_ (file_close_error,     "Can not close file")
     MSG_ (length_too_big,       "String length is too big")
     MSG_ (invalid_value,        "Variable value is invalid")
