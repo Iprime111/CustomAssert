@@ -5,7 +5,7 @@ void assert_perror_custom (enum ERROR_CODE code, const char *source_path, const 
 
     #define MSG_(err_code, descr)                                                   \
         if (code & err_code){                                                       \
-            printf_color (Console_red, Console_normal, "\n" #err_code ": " descr);  \
+            fprintf_color (Console_red, Console_normal, stderr, "\n" #err_code ": " descr);  \
         }                                                                           \
 
     MSG_ (undefined_variable,   "Variable is undefined")
@@ -22,7 +22,7 @@ void assert_perror_custom (enum ERROR_CODE code, const char *source_path, const 
     MSG_ (invalid_value,        "Variable value is invalid")
 
     #ifdef _DEBUG
-        printf_color (Console_red, Console_normal, " in %s %s:%d\n",\
+        fprintf_color (Console_red, Console_normal, stderr, " in %s %s:%d\n",\
                         function, source_path, line);
 
         unsigned int line_shift = 0;
@@ -31,28 +31,28 @@ void assert_perror_custom (enum ERROR_CODE code, const char *source_path, const 
 
         if (code_lines != NULL){
             if (line_shift){
-                printf_color (Console_blue, Console_bold, "%5.d|\t%s", line, code_lines);
-                printf_color (Console_white, Console_normal,   "     |\t%s", code_lines + MAX_LINE_LENGTH);
+                fprintf_color (Console_blue, Console_bold,    stderr, "%5.d|\t%s", line, code_lines);
+                fprintf_color (Console_white, Console_normal, stderr, "     |\t%s", code_lines + MAX_LINE_LENGTH);
             }else{
-                printf_color (Console_white, Console_normal, "     |\t%s", code_lines);
-                printf_color (Console_blue, Console_bold,   "%5.d|\t%s", line, code_lines + MAX_LINE_LENGTH);
+                fprintf_color (Console_white, Console_normal, stderr, "     |\t%s", code_lines);
+                fprintf_color (Console_blue, Console_bold,    stderr, "%5.d|\t%s", line, code_lines + MAX_LINE_LENGTH);
             }
 
-            printf_color (Console_white, Console_normal, "     |\t%s", code_lines + MAX_LINE_LENGTH * 2);
+            fprintf_color (Console_white, Console_normal, stderr,  "     |\t%s", code_lines + MAX_LINE_LENGTH * 2);
 
             free (code_lines);
         }
 
 
-        printf ("\n");
+        fprintf (stderr, "\n");
 
         #ifdef _SHOW_STACK_TRACE
-            printf_color (Console_red, Console_bold, "STACK TRACE:\n");
+            fprintf_color (Console_red, Console_bold, stderr, "STACK TRACE:\n");
 
             Show_stack_trace ();
         #endif
 
-        printf ("\n");
+        fprintf (stderr, "\n");
     #endif
 
     #undef MSG_
@@ -94,21 +94,21 @@ bool should_read_source (const char *source_path){
     bool ret_value = true;
 
     if (binary_modified_time < 0){
-        printf_color (Console_yellow, Console_bold,\
+        fprintf_color (Console_yellow, Console_bold, stderr,\
                     "Unexpected error is occuried while reading binary file metadata! (%s)\n", binary_path);
 
         ret_value = false;
     }
 
     if (source_modified_time < 0){
-        printf_color (Console_yellow, Console_bold,\
+        fprintf_color (Console_yellow, Console_bold, stderr,\
                 "Unexpected error is occuried while reading source file metadata! (%s)\n", source_path);
 
         ret_value = false;
     }
 
     if (source_modified_time > binary_modified_time){
-        printf_color (Console_yellow, Console_bold,\
+        fprintf_color (Console_yellow, Console_bold, stderr,\
                 "Source file was modified after binary compilation!\n");
 
         ret_value = false;
@@ -156,7 +156,7 @@ char *read_source (const char *source_path, unsigned int line, unsigned int *lin
 
     if (cur_ch == EOF || ferror (fp)){
         fclose (fp);
-        printf ("Error occuried while reading source file! (%s)", source_path);
+        fprintf (stderr, "Error occuried while reading source file! (%s)", source_path);
         return NULL;
     }
 
