@@ -20,6 +20,8 @@ void assert_perror_custom (enum ERROR_CODE code, const char *source_path, const 
     MSG_ (file_close_error,     "Can not close file")
     MSG_ (length_too_big,       "String length is too big")
     MSG_ (invalid_value,        "Variable value is invalid")
+    MSG_ (stack_overflow,       "Stack has reached it's maximum size")
+    MSG_ (allocation_error,     "Error occuried while allocating memory")
 
     #ifdef _DEBUG
         fprintf_color (Console_red, Console_normal, stderr, " in %s %s:%d\n",\

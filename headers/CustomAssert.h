@@ -43,7 +43,9 @@ enum ERROR_CODE{
     invalid_arguments   = 1 << 8,  ///< Too many console line arguments have been passed
     file_close_error    = 1 << 9,  ///< Error is occuried while closing file
     length_too_big      = 1 << 10, ///< String length is too big
-    invalid_value       = 1 << 11  ///< Invalid variable value
+    invalid_value       = 1 << 11, ///< Invalid variable value
+    stack_overflow      = 1 << 12, ///< Stack has reached it's maximum size
+    allocation_error    = 1 << 13  ///< Memory allocationerror
 };
 
 /*!

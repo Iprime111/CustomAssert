@@ -9,7 +9,7 @@
 #include "ColorConsole.h"
 
 /// @brief Size of a buffer which contains logged functions
-const int TRACE_BUFFER_SIZE = 20;
+const int TRACE_BUFFER_SIZE = 50;
 
 /// @brief Max logging level
 const int LOG_LEVEL = 4;
