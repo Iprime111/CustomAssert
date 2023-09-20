@@ -21,6 +21,32 @@ struct LOGGED_FUNCTION{
     int  line;
 };
 
+#ifdef _SHOW_STACK_TRACE
+
+/// @brief Buffer for information about traced functions
+extern struct LOGGED_FUNCTION *Stack_trace_buffer;
+
+/*! @brief Adds function to log */
+#define PushLog(LEVEL)                                                          \
+            const int _log_level_cur_func_ = LEVEL;                             \
+            do{                                                                 \
+                if (LEVEL <= LOG_LEVEL){                                        \
+                    add_func_to_log (__FILE__, __PRETTY_FUNCTION__, __LINE__);  \
+                }                                                               \
+            }while (0)
+
+
+/*! @brief Pops function from log */
+#define PopLog()                                                \
+            do{                                                 \
+                if (_log_level_cur_func_ <= LOG_LEVEL){         \
+                    pop_func_from_log ();                       \
+                }                                               \
+            }while (0)
+
+/*! @brief Returns RET value and calls PopLog */
+#define RETURN PopLog(); return
+
 /*!
     @brief Stores data about logged function in buffer
     @param[in] file Name of file where logged function is contained
@@ -57,32 +83,6 @@ int open_log();
     @note Must be called in atexit function
 */
 void close_log();
-
-/// @brief Buffer for information about traced functions
-extern struct LOGGED_FUNCTION *Stack_trace_buffer;
-
-#ifdef _SHOW_STACK_TRACE
-
-/*! @brief Adds function to log */
-#define PushLog(LEVEL)                                                          \
-            const int _log_level_cur_func_ = LEVEL;                             \
-            do{                                                                 \
-                if (LEVEL <= LOG_LEVEL){                                        \
-                    add_func_to_log (__FILE__, __PRETTY_FUNCTION__, __LINE__);  \
-                }                                                               \
-            }while (0)
-
-
-/*! @brief Pops function from log */
-#define PopLog()                                                \
-            do{                                                 \
-                if (_log_level_cur_func_ <= LOG_LEVEL){         \
-                    pop_func_from_log ();                       \
-                }                                               \
-            }while (0)
-
-/*! @brief Returns RET value and calls PopLog */
-#define RETURN PopLog(); return
 
 #else
 

@@ -1,5 +1,7 @@
 #include "CustomAssert.h"
 
+#ifndef _NDEBUG
+
 void assert_perror_custom (enum ERROR_CODE code, const char *source_path, const char* function, unsigned int line){
 
 
@@ -23,39 +25,37 @@ void assert_perror_custom (enum ERROR_CODE code, const char *source_path, const 
     MSG_ (stack_overflow,       "Stack has reached it's maximum size")
     MSG_ (allocation_error,     "Error occuried while allocating memory")
 
-    #ifdef _DEBUG
-        fprintf_color (Console_red, Console_normal, stderr, " in %s %s:%d\n",\
-                        function, source_path, line);
+    fprintf_color (Console_red, Console_normal, stderr, " in %s %s:%d\n",\
+                    function, source_path, line);
 
-        unsigned int line_shift = 0;
+    unsigned int line_shift = 0;
 
-        char * code_lines = read_source (source_path, line, &line_shift);
+    char * code_lines = read_source (source_path, line, &line_shift);
 
-        if (code_lines != NULL){
-            if (line_shift){
-                fprintf_color (Console_blue, Console_bold,    stderr, "%5.d|\t%s", line, code_lines);
-                fprintf_color (Console_white, Console_normal, stderr, "     |\t%s", code_lines + MAX_LINE_LENGTH);
-            }else{
-                fprintf_color (Console_white, Console_normal, stderr, "     |\t%s", code_lines);
-                fprintf_color (Console_blue, Console_bold,    stderr, "%5.d|\t%s", line, code_lines + MAX_LINE_LENGTH);
-            }
-
-            fprintf_color (Console_white, Console_normal, stderr,  "     |\t%s", code_lines + MAX_LINE_LENGTH * 2);
-
-            free (code_lines);
+    if (code_lines != NULL){
+        if (line_shift){
+            fprintf_color (Console_blue, Console_bold,    stderr, "%5.d|\t%s", line, code_lines);
+            fprintf_color (Console_white, Console_normal, stderr, "     |\t%s", code_lines + MAX_LINE_LENGTH);
+        }else{
+            fprintf_color (Console_white, Console_normal, stderr, "     |\t%s", code_lines);
+            fprintf_color (Console_blue, Console_bold,    stderr, "%5.d|\t%s", line, code_lines + MAX_LINE_LENGTH);
         }
 
+        fprintf_color (Console_white, Console_normal, stderr,  "     |\t%s", code_lines + MAX_LINE_LENGTH * 2);
 
-        fprintf (stderr, "\n");
+        free (code_lines);
+    }
 
-        #ifdef _SHOW_STACK_TRACE
-            fprintf_color (Console_red, Console_bold, stderr, "STACK TRACE:\n");
 
-            Show_stack_trace ();
-        #endif
+    fprintf (stderr, "\n");
 
-        fprintf (stderr, "\n");
+    #ifdef _SHOW_STACK_TRACE
+        fprintf_color (Console_red, Console_bold, stderr, "STACK TRACE:\n");
+
+        Show_stack_trace ();
     #endif
+
+    fprintf (stderr, "\n");
 
     #undef MSG_
 }
@@ -176,3 +176,5 @@ char *read_source (const char *source_path, unsigned int line, unsigned int *lin
 
     return code_lines;
 }
+
+#endif

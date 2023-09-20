@@ -1,5 +1,7 @@
 #include "Logger.h"
 
+#ifdef _SHOW_STACK_TRACE
+
 struct LOGGED_FUNCTION *Stack_trace_buffer = NULL;
 int backtrace_log_init_ = open_log();
 static int FunctionsCount = 0;
@@ -20,12 +22,12 @@ void add_func_to_log (const char *file, const char *function, int line){
 }
 
 void Show_stack_trace (){
+    custom_assert_without_logger (backtrace_log_init_,        invalid_value,   (void)0);
+    custom_assert_without_logger (Stack_trace_buffer != NULL, pointer_is_null, (void)0);
+
     for (int i = FunctionsCount - 1; i >= 0; i--){
-        custom_assert_without_logger (backtrace_log_init_,                                                invalid_value,       (void)0);
-        custom_assert_without_logger (Stack_trace_buffer [i]          != NULL,                            pointer_is_null,     (void)0);
         custom_assert_without_logger (Stack_trace_buffer [i].file     != NULL,                            pointer_is_null,     (void)0);
         custom_assert_without_logger (Stack_trace_buffer [i].function != NULL,                            pointer_is_null,     (void)0);
-        custom_assert_without_logger (Stack_trace_buffer [i].file     != Stack_trace_buffer [i].function, not_enough_pointers, (void)0);
 
         fprintf_color (Console_default, Console_bold, stderr, "#%d\tfunction: %-70s (in file %s:%d)\n",\
             FunctionsCount - 1 - i, Stack_trace_buffer[i].function, Stack_trace_buffer[i].file,\
@@ -51,3 +53,5 @@ int open_log(){
 void close_log(){
     free(Stack_trace_buffer);
 }
+
+#endif

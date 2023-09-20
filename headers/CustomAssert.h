@@ -12,24 +12,6 @@
 
 const int MAX_LINE_LENGTH = 300;
 
-/*! @brief Custom assert implementation that provides information about file, function and line, do not stops the program and do not calls PopLog()*/
-#define custom_assert_without_logger(EXP, CODE, RET) \
-    custom_assert_internal(EXP, CODE, RET, {})
-
-/*! @brief Custom assert implementation that provides information about file, function and line and do not stops the program*/
-#define custom_assert(EXP, CODE, RET) \
-    custom_assert_internal(EXP, CODE, RET, PopLog())
-
-/*! @brief Custom assert implementation that provides information about file, function and line, do not stops the program and running the CALLBACK expression*/
-#define custom_assert_internal(EXP, CODE, RET, CALLBACK)                                        \
-            do{                                                                                 \
-                if (!(EXP)){                                                                    \
-                    assert_perror_custom (CODE, __FILE__, __PRETTY_FUNCTION__, __LINE__);       \
-                    CALLBACK;                                                                   \
-                    return RET;                                                                 \
-                }                                                                               \
-            }while(0)
-
 /// @brief Code of detected error
 enum ERROR_CODE{
     undefined_variable  = 1 << 0,  ///< Undefined error code
@@ -47,6 +29,27 @@ enum ERROR_CODE{
     stack_overflow      = 1 << 12, ///< Stack has reached it's maximum size
     allocation_error    = 1 << 13  ///< Memory allocationerror
 };
+
+
+#ifndef _NDEBUG
+
+/*! @brief Custom assert implementation that provides information about file, function and line, do not stops the program and do not calls PopLog()*/
+#define custom_assert_without_logger(EXP, CODE, RET) \
+    custom_assert_internal(EXP, CODE, RET, {})
+
+/*! @brief Custom assert implementation that provides information about file, function and line and do not stops the program*/
+#define custom_assert(EXP, CODE, RET) \
+    custom_assert_internal(EXP, CODE, RET, PopLog())
+
+/*! @brief Custom assert implementation that provides information about file, function and line, do not stops the program and running the CALLBACK expression*/
+#define custom_assert_internal(EXP, CODE, RET, CALLBACK)                                        \
+            do{                                                                                 \
+                if (!(EXP)){                                                                    \
+                    assert_perror_custom (CODE, __FILE__, __PRETTY_FUNCTION__, __LINE__);       \
+                    CALLBACK;                                                                   \
+                    return RET;                                                                 \
+                }                                                                               \
+            }while(0)
 
 /*!
     @brief Shows error in console
@@ -102,4 +105,11 @@ bool should_read_source (const char *source_filename);
 */
 bool read_non_empty_string (char *str, FILE *fp, bool *read_next_line);
 
+#else
+    #define custom_assert_without_loggger(EXP, CODE, RET) ;
+    #define custom_assert(EXP, CODE, RET) ;
+    #define custom_assert_internal(EXP, CODE, RET, CALLBACK) ;
+
 #endif
+#endif
+
