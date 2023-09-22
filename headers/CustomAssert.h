@@ -106,7 +106,7 @@ bool should_read_source (const char *source_filename);
 bool read_non_empty_string (char *str, FILE *fp, bool *read_next_line);
 
 #else
-    #define custom_assert_without_loggger(EXP, CODE, RET) ;
+    #define custom_assert_without_logger(EXP, CODE, RET) ;
     #define custom_assert(EXP, CODE, RET) ;
     #define custom_assert_internal(EXP, CODE, RET, CALLBACK) ;
 
