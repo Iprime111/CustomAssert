@@ -54,4 +54,24 @@ void close_log(){
     free(Stack_trace_buffer);
 }
 
+#else
+
+void add_func_to_log (const char *file, const char *function, int line){
+
+}
+
+void Show_stack_trace (){
+
+}
+
+void pop_func_from_log (){
+}
+
+int open_log(){
+    return 1;
+}
+
+void close_log(){
+
+}
 #endif
