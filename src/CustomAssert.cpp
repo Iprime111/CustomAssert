@@ -7,7 +7,7 @@ void assert_perror_custom (enum ERROR_CODE code, const char *source_path, const 
 
     #define MSG_(err_code, descr)                                                   \
         if (code & err_code){                                                       \
-            fprintf_color (Console_red, Console_normal, stderr, "\n" #err_code ": " descr);  \
+            fprintf_color (CONSOLE_RED, CONSOLE_NORMAL, stderr, "\n" #err_code ": " descr);  \
         }                                                                           \
 
     MSG_ (undefined_variable,   "Variable is undefined")
@@ -25,7 +25,7 @@ void assert_perror_custom (enum ERROR_CODE code, const char *source_path, const 
     MSG_ (stack_overflow,       "Stack has reached it's maximum size")
     MSG_ (allocation_error,     "Error occuried while allocating memory")
 
-    fprintf_color (Console_red, Console_normal, stderr, " in %s %s:%d\n",\
+    fprintf_color (CONSOLE_RED, CONSOLE_NORMAL, stderr, " in %s %s:%d\n",\
                     function, source_path, line);
 
     unsigned int line_shift = 0;
@@ -34,14 +34,14 @@ void assert_perror_custom (enum ERROR_CODE code, const char *source_path, const 
 
     if (code_lines != NULL){
         if (line_shift){
-            fprintf_color (Console_blue, Console_bold,    stderr, "%5.d|\t%s", line, code_lines);
-            fprintf_color (Console_white, Console_normal, stderr, "     |\t%s", code_lines + MAX_LINE_LENGTH);
+            fprintf_color (CONSOLE_BLUE, CONSOLE_BOLD,    stderr, "%5.d|\t%s", line, code_lines);
+            fprintf_color (CONSOLE_WHITE, CONSOLE_NORMAL, stderr, "     |\t%s", code_lines + MAX_LINE_LENGTH);
         }else{
-            fprintf_color (Console_white, Console_normal, stderr, "     |\t%s", code_lines);
-            fprintf_color (Console_blue, Console_bold,    stderr, "%5.d|\t%s", line, code_lines + MAX_LINE_LENGTH);
+            fprintf_color (CONSOLE_WHITE, CONSOLE_NORMAL, stderr, "     |\t%s", code_lines);
+            fprintf_color (CONSOLE_BLUE, CONSOLE_BOLD,    stderr, "%5.d|\t%s", line, code_lines + MAX_LINE_LENGTH);
         }
 
-        fprintf_color (Console_white, Console_normal, stderr,  "     |\t%s", code_lines + MAX_LINE_LENGTH * 2);
+        fprintf_color (CONSOLE_WHITE, CONSOLE_NORMAL, stderr,  "     |\t%s", code_lines + MAX_LINE_LENGTH * 2);
 
         free (code_lines);
     }
@@ -50,7 +50,7 @@ void assert_perror_custom (enum ERROR_CODE code, const char *source_path, const 
     fprintf (stderr, "\n");
 
     #ifdef _SHOW_STACK_TRACE
-        fprintf_color (Console_red, Console_bold, stderr, "STACK TRACE:\n");
+        fprintf_color (CONSOLE_RED, CONSOLE_BOLD, stderr, "STACK TRACE:\n");
 
         Show_stack_trace ();
     #endif
@@ -96,21 +96,21 @@ bool should_read_source (const char *source_path){
     bool ret_value = true;
 
     if (binary_modified_time < 0){
-        fprintf_color (Console_yellow, Console_bold, stderr,\
+        fprintf_color (CONSOLE_YELLOW, CONSOLE_BOLD, stderr,\
                     "Unexpected error is occuried while reading binary file metadata! (%s)\n", binary_path);
 
         ret_value = false;
     }
 
     if (source_modified_time < 0){
-        fprintf_color (Console_yellow, Console_bold, stderr,\
+        fprintf_color (CONSOLE_YELLOW, CONSOLE_BOLD, stderr,\
                 "Unexpected error is occuried while reading source file metadata! (%s)\n", source_path);
 
         ret_value = false;
     }
 
     if (source_modified_time > binary_modified_time){
-        fprintf_color (Console_yellow, Console_bold, stderr,\
+        fprintf_color (CONSOLE_YELLOW, CONSOLE_BOLD, stderr,\
                 "Source file was modified after binary compilation!\n");
 
         ret_value = false;

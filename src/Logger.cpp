@@ -29,7 +29,7 @@ void Show_stack_trace (){
         custom_assert_without_logger (Stack_trace_buffer [i].file     != NULL,                            pointer_is_null,     (void)0);
         custom_assert_without_logger (Stack_trace_buffer [i].function != NULL,                            pointer_is_null,     (void)0);
 
-        fprintf_color (Console_default, Console_bold, stderr, "#%d\tfunction: %-70s (in file %s:%d)\n",\
+        fprintf_color (CONSOLE_DEFAULT, CONSOLE_BOLD, stderr, "#%d\tfunction: %-70s (in file %s:%d)\n",\
             FunctionsCount - 1 - i, Stack_trace_buffer[i].function, Stack_trace_buffer[i].file,\
             Stack_trace_buffer[i].line);
     }
