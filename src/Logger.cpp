@@ -1,4 +1,5 @@
 #include "Logger.h"
+#include "CustomAssert.h"
 
 #ifdef _SHOW_STACK_TRACE
 
