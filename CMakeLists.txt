@@ -7,10 +7,10 @@ add_library (CustomAssert INTERFACE src/CustomAssert.cpp
                                 headers/CustomAssert.h
                                 headers/Logger.h)
 
-target_include_directories (CustomAssert PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/headers)
+target_include_directories (CustomAssert INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/headers)
 
 add_subdirectory (ColorConsole)
-target_link_libraries (CustomAssert PRIVATE ColorConsole)
+target_link_libraries (CustomAssert INTERFACE ColorConsole)
 
 
 
