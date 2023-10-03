@@ -10,7 +10,7 @@ add_library (CustomAssert STATIC src/CustomAssert.cpp
 target_include_directories (CustomAssert PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/headers)
 
 add_subdirectory (ColorConsole)
-target_link_libraries (CustomAssert PUBLIC ColorConsole)
+target_link_libraries (CustomAssert PRIVATE ColorConsole)
 
 
 
