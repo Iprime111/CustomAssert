@@ -1,14 +1,8 @@
 #ifndef CUSTOM_ASSERT_H_
 #define CUSTOM_ASSERT_H_
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <time.h>
-#include <sys/stat.h>
-
-#include "ColorConsole.h"
 #include "Logger.h"
+#include <time.h>
 
 const int MAX_LINE_LENGTH = 300;
 

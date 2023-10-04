@@ -1,10 +1,6 @@
 #ifndef SOLVER_LOGGER_H_
 #define SOLVER_LOGGER_H_
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-
 #include "ColorConsole.h"
 
 /// @brief Size of a buffer which contains logged functions

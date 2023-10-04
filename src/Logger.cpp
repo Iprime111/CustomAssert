@@ -1,5 +1,9 @@
+#include <stdlib.h>
+#include <string.h>
+
 #include "Logger.h"
 #include "CustomAssert.h"
+#include "ColorConsole.h"
 
 #ifdef _SHOW_STACK_TRACE
 
@@ -43,16 +47,16 @@ void pop_func_from_log (){
 }
 
 int open_log(){
-    Stack_trace_buffer = (struct LOGGED_FUNCTION*)calloc(TRACE_BUFFER_SIZE, sizeof(LOGGED_FUNCTION));
+    Stack_trace_buffer = (struct LOGGED_FUNCTION*) calloc(TRACE_BUFFER_SIZE, sizeof(LOGGED_FUNCTION));
 
     custom_assert_without_logger (Stack_trace_buffer != NULL, allocation_error, 0);
 
-    atexit(close_log);
+    atexit (close_log);
     return 1;
 }
 
 void close_log(){
-    free(Stack_trace_buffer);
+    free (Stack_trace_buffer);
 }
 
 #else

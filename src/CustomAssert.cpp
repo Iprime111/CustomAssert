@@ -1,4 +1,10 @@
+#include <cstdlib>
+#include <unistd.h>
+#include <sys/stat.h>
+
 #include "CustomAssert.h"
+#include "ColorConsole.h"
+
 
 #ifndef _NDEBUG
 
@@ -72,7 +78,10 @@ FILE *open_file (const char *filename){
 char *get_binary_file_path (){
     char *filename_buf = (char *) calloc (FILENAME_MAX, sizeof(char));
 
-    readlink ("/proc/self/exe", filename_buf, FILENAME_MAX);
+    if (readlink ("/proc/self/exe", filename_buf, FILENAME_MAX) < 0){
+        free (filename_buf);
+        return NULL;
+    }
 
     return filename_buf;
 }
@@ -89,6 +98,13 @@ time_t get_last_modified_date (const char *filename){
 
 bool should_read_source (const char *source_path){
     char *binary_path = get_binary_file_path ();
+
+    if (!binary_path){
+        fprintf_color (CONSOLE_YELLOW, CONSOLE_BOLD, stderr,\
+                    "Unexpected error is occuried while reading binary file path!\n");
+
+        return false;
+    }
 
     time_t source_modified_time = get_last_modified_date (source_path);
     time_t binary_modified_time = get_last_modified_date (binary_path);
