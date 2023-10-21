@@ -8,13 +8,58 @@
 
 #ifndef _NDEBUG
 
+/*!
+    @brief Reads three lines from the source file. Shifts reading lines if neccessary
+    @param[in] source_filename Name of the source file
+    @param[in] line Middle line number
+    @param[out] line_shift 1 if now the given line is the first in array and 0 if not
+    @return Pointer to array with three MAX_LINE_LENGTH-sized strings or NULL if error is occuried
+*/
+static char *read_source (const char *source_filename, unsigned int line, unsigned int *line_shift);
+
+/*!
+    @brief Opens file for reading
+    @param[in] ilename Name of the file
+    @return Pointer to opened file or NULL if error is occuried
+*/
+static FILE *open_file (const char *filename);
+
+/*!
+    @brief Gets file path to executing binary
+    @return Path to binary file or NULL if error is occuried
+*/
+static char *get_binary_file_path ();
+
+/*!
+    @brief Gets time of the given file's last modification
+    @param[in] filename Path to the file
+    @return Last modification time or -1 if error is occuried
+*/
+static time_t get_last_modified_date (const char *filename);
+
+/*!
+    @brief Tells if source file is outdated
+    @param[in] source_filename Name of the source file
+    @return false if file is outdated and true if not
+*/
+static bool should_read_source (const char *source_filename);
+
+/*!
+    @brief Reads line from fp till it's not blank
+    @param[out] str Buffer for read string
+    @param[in] fp Pointer to the file
+    @param[out] read_next_line true if more than one line have been read and false if not
+    @return false if errors occuried and true if not
+*/
+static bool read_non_empty_string (char *str, FILE *fp, bool *read_next_line);
+
 void assert_perror_custom (enum ERROR_CODE code, const char *source_path, const char* function, unsigned int line){
 
 
-    #define MSG_(err_code, descr)                                                   \
-        if (code & err_code){                                                       \
+    #define MSG_(err_code, descr)                                                            \
+        if (code & err_code){                                                                \
             fprintf_color (CONSOLE_RED, CONSOLE_NORMAL, stderr, "\n" #err_code ": " descr);  \
-        }                                                                           \
+        }                                                                                    \
 
     MSG_ (undefined_variable,   "Variable is undefined")
     MSG_ (number_is_nan,        "Requested number is NaN")
@@ -66,7 +111,7 @@ void assert_perror_custom (enum ERROR_CODE code, const char *source_path, const 
     #undef MSG_
 }
 
-FILE *open_file (const char *filename){
+static FILE *open_file (const char *filename){
     FILE *fp = fopen (filename, "r");
 
     if (fp == NULL || ferror (fp))
@@ -75,7 +120,7 @@ FILE *open_file (const char *filename){
     return fp;
 }
 
-char *get_binary_file_path (){
+static char *get_binary_file_path (){
     char *filename_buf = (char *) calloc (FILENAME_MAX, sizeof(char));
 
     if (readlink ("/proc/self/exe", filename_buf, FILENAME_MAX) < 0){
@@ -86,7 +131,7 @@ char *get_binary_file_path (){
     return filename_buf;
 }
 
-time_t get_last_modified_date (const char *filename){
+static time_t get_last_modified_date (const char *filename){
     struct stat stat_buf;
 
     if (stat (filename, &stat_buf))
@@ -96,7 +141,7 @@ time_t get_last_modified_date (const char *filename){
 
 }
 
-bool should_read_source (const char *source_path){
+static bool should_read_source (const char *source_path){
     char *binary_path = get_binary_file_path ();
 
     if (!binary_path){
@@ -137,7 +182,7 @@ bool should_read_source (const char *source_path){
     return ret_value;
 }
 
-bool read_non_empty_string (char *str, FILE *fp, bool *read_next_line){
+static bool read_non_empty_string (char *str, FILE *fp, bool *read_next_line){
 
     *read_next_line = false;
     int read_lines = 0;
@@ -154,7 +199,7 @@ bool read_non_empty_string (char *str, FILE *fp, bool *read_next_line){
     return true;
 }
 
-char *read_source (const char *source_path, unsigned int line, unsigned int *line_shift){
+static char *read_source (const char *source_path, unsigned int line, unsigned int *line_shift){
     if (!should_read_source (source_path))
         return NULL;
 
